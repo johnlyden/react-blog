@@ -36,9 +36,9 @@ class PostsIndex extends Component {
     );
   }
 }
-
+// add this piece of state to this.props
 function mapStateToProps(state) {
-  
+  // creates this.props.posts
   return { posts: state.posts };
 }
 
