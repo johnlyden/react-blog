@@ -25,8 +25,8 @@ class PostsNew extends Component {
         component={this.renderField}
       />
       <Field
-        label="Tags"
-        name="tags"
+        label="Categories"
+        name="categories"
         component={this.renderField}
       />
       <Field
@@ -39,8 +39,27 @@ class PostsNew extends Component {
   }
 }
 
+function validate(values) {
+  const errors = {};
+  
+  // validate the inputs from the values object
+  if (!values.title) {
+    errors.title = "Enter a title!";
+  }
+  if (!values.categories) {
+    errors.categories = "Enter some categories!";
+  }
+  if (!values.content) {
+    errors.content = "Enter some content please!";
+  }
+  // if errors is empty, the form is fine to submit
+  // if errrors has *any* properties, redux form assumes form is invalid
+  return errors;
+}
+
 // talks to the reducer
 export default reduxForm({
+  validate,
   // form is like the name of the form - may have more than one form on page
   form: 'PostsNewForm' // unique string insures if we show multiple forms at once, it will handle them all correctly
 })(PostsNew);
