@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 // reduxForm is similar to the redux connect helper function - hooks in all the reducers n shit
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
 
 class PostsNew extends Component {
   renderField(field) {
@@ -22,7 +25,9 @@ class PostsNew extends Component {
   }
   
   onSubmit(values) {
-    console.log(values);
+    this.props.createPost(values, () => {
+      this.props.history.push('/posts');
+    });
   }
   
   render() {
@@ -46,6 +51,7 @@ class PostsNew extends Component {
         component={this.renderField}
       />
       <button type="submit" className="btn btn-primary">Submit</button>
+      <Link to="/"   className="btn btn-danger">Cancel</Link>
     </form>
     );
   }
@@ -74,4 +80,6 @@ export default reduxForm({
   validate,
   // form is like the name of the form - may have more than one form on page
   form: 'PostsNewForm' // unique string insures if we show multiple forms at once, it will handle them all correctly
-})(PostsNew);
+})(
+  connect(null, { createPost })(PostsNew)
+);
